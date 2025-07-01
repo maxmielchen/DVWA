@@ -19,9 +19,11 @@ RUN apt-get update \
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY --chown=www-data:www-data . .
 COPY --chown=www-data:www-data config/config.inc.php.dist config/config.inc.php
+COPY apache.conf /etc/apache2/sites-available/apache.conf
 
 # This is configuring the stuff for the API
 RUN cd /var/www/html/vulnerabilities/api \
- && composer install
+ && composer install \
+ && a2dissite 000-default.conf \
+ && a2ensite apache.conf
 
-RUN sed -i 's/^Listen .*/Listen 0.0.0.0:80/' /etc/apache2/ports.conf
