@@ -21,8 +21,6 @@ services:
     #   - ./:/var/www/html
     networks:
       - dvwa
-    ports:
-      - 127.0.0.1:4280:80
     restart: unless-stopped
 
   db:
